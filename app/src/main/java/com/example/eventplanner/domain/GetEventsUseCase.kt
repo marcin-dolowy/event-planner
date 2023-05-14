@@ -17,6 +17,4 @@ class GetEventsUseCase @Inject constructor(
             listOf()
         }
     }
-
-
 }

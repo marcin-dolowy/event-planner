@@ -3,8 +3,7 @@ package com.example.eventplanner.data.models
 import androidx.annotation.Keep
 
 @Keep
-data class EventDTOItem(
-    val id: String,
+data class SaveEventDTO(
     val dateDisplayString: String,
     val imageUrl: String,
     val latitude: Double,
