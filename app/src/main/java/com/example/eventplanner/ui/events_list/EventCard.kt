@@ -64,7 +64,7 @@ fun EventCard(
             )
 
             Text(
-                text = event.tittle,
+                text = event.title,
                 modifier = Modifier
                     .padding(horizontal = 5.dp)
                     .fillMaxWidth(),
@@ -103,8 +103,8 @@ fun EventCard(
 private fun EventCardPreview() {
     EventCard(
         event = Event(
-            tittle = "Tytuł",
-            eventId = "",
+            title = "Tytuł",
+            id = "",
             place = "Kraków, Tauron Arena",
             dateDisplayString = "20.05.2023 17:00",
             imageUrl = "",
