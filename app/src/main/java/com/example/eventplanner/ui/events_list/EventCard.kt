@@ -26,13 +26,11 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.eventplanner.R
 import com.example.eventplanner.ui.models.Event
-import com.example.eventplanner.ui.utils.myLoadingEffect
 
 @Composable
 fun EventCard(
     modifier: Modifier = Modifier,
     event: Event,
-    isLoading: Boolean = false,
     onCardClick: () -> Unit = {},
 ) {
     Card(
@@ -54,8 +52,7 @@ fun EventCard(
                     .padding(bottom = 7.dp)
                     .padding(horizontal = 15.dp)
                     .fillMaxWidth()
-                    .height((screenWidth*0.66).dp)
-                    .myLoadingEffect(isLoading),
+                    .height((screenWidth*0.66).dp),
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(event.imageUrl)
                     .crossfade(true)
@@ -70,8 +67,7 @@ fun EventCard(
                 text = event.tittle,
                 modifier = Modifier
                     .padding(horizontal = 5.dp)
-                    .fillMaxWidth()
-                    .myLoadingEffect(isLoading),
+                    .fillMaxWidth(),
                 fontWeight = FontWeight.SemiBold,
                 fontSize = 25.sp,
                 textAlign = TextAlign.Center
@@ -81,8 +77,7 @@ fun EventCard(
                 modifier = Modifier
                     .padding(horizontal = 5.dp)
                     .padding(vertical = 5.dp)
-                    .fillMaxWidth()
-                    .myLoadingEffect(isLoading),
+                    .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
