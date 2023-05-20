@@ -87,6 +87,7 @@ class AddEventViewModel @Inject constructor(
                 else {
                     showToast("Success!!!!!!")
                     pushEffect(AddEventEffect.NavigateToEventList)
+                    clearState()
                 }
             }
             else {
@@ -96,6 +97,12 @@ class AddEventViewModel @Inject constructor(
             updateState {
                 copy(isLoading = false)
             }
+        }
+    }
+
+    private fun clearState() {
+        updateState {
+            AddEventState()
         }
     }
 

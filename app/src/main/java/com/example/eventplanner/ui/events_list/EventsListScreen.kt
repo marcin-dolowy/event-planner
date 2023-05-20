@@ -16,8 +16,9 @@ import com.example.eventplanner.ui.models.Event
 @Composable
 fun EventsListScreen(
     state: EventListState,
+    modifier: Modifier = Modifier,
 ) {
-    Surface(Modifier.fillMaxSize()) {
+    Surface(modifier.fillMaxSize()) {
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(vertical = 10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),

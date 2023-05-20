@@ -34,9 +34,10 @@ fun AddEventScreen(
     onChangeImageUrl: (String) -> Unit,
     onAddEventClick: () -> Unit,
     onNavigateToEventList: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .padding(vertical = 10.dp, horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

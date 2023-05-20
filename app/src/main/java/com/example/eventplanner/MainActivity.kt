@@ -3,16 +3,19 @@ package com.example.eventplanner
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.eventplanner.ui.BottomNavigationBar
 import com.example.eventplanner.ui.add_event.AddEventEffect
 import com.example.eventplanner.ui.add_event.AddEventScreen
 import com.example.eventplanner.ui.add_event.AddEventViewModel
@@ -20,42 +23,48 @@ import com.example.eventplanner.ui.events_list.EventListViewModel
 import com.example.eventplanner.ui.events_list.EventsListScreen
 import com.example.eventplanner.ui.theme.EventPlannerTheme
 import dagger.hilt.android.AndroidEntryPoint
-import okhttp3.Route
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             EventPlannerTheme {
                 val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = Routes.AddEvent.routeName) {
-                    composable(route = Routes.EventList.routeName) {
-                        EventListDestination()
-                    }
-                    composable(route = Routes.AddEvent.routeName) {
-                        addEventDestination(onNavigateToEventList = {
-                            navController.navigate(Routes.EventList.routeName)
-                        })
+                Scaffold(bottomBar = { BottomNavigationBar(navController = navController) }) { padding ->
+                    NavHost(navController = navController, startDestination = Routes.AddEvent.routeName) {
+                        composable(route = Routes.EventList.routeName) {
+                            EventListDestination(modifier = Modifier.padding(padding))
+                        }
+                        composable(route = Routes.AddEvent.routeName) {
+                            AddEventDestination(
+                                modifier = Modifier.padding(padding),
+                                onNavigateToEventList = {
+                                    navController.navigate(Routes.EventList.routeName) {
+
+                                    }
+                                },
+                            )
+                        }
                     }
                 }
-
-
             }
         }
     }
 }
 
-sealed class Routes(val routeName: String) {
-    object EventList: Routes(routeName = "EventList")
-    object AddEvent: Routes(routeName = "AddEvent")
+sealed class Routes(val routeName: String, val navItemText: String, val navIconId: Int) {
+    object EventList: Routes(routeName = "EventList", navItemText = "Lista Wydarzeń", navIconId = R.drawable.calendar_icon)
+    object AddEvent: Routes(routeName = "AddEvent", navItemText = "Dodawanie wydarzeń", navIconId = R.drawable.calendar_icon)
 }
 
 @Composable
-private fun EventListDestination() {
+private fun EventListDestination(modifier: Modifier) {
     val eventListViewModel = hiltViewModel<EventListViewModel>()
     val eventListState = eventListViewModel.state.collectAsState()
     EventsListScreen(
+        modifier = modifier,
         state = eventListState.value
     )
 }
@@ -73,13 +82,15 @@ private fun HandleAddEventEffect(
 }
 
 @Composable
-private fun addEventDestination(
+private fun AddEventDestination(
+    modifier: Modifier,
     onNavigateToEventList: () -> Unit,
 ) {
     val addEventViewModel = hiltViewModel<AddEventViewModel>()
     val addEventState = addEventViewModel.state.collectAsState()
 
     AddEventScreen(
+        modifier = modifier,
         state = addEventState.value,
         onShowDateDialog = { addEventViewModel.onShowDialog() },
         onDateChange = { addEventViewModel.onDateChange(it) },
