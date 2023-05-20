@@ -4,11 +4,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.example.eventplanner.ui.models.EventMarker
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.rememberCameraPositionState
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -25,19 +28,21 @@ fun MapScreen(
     Column(modifier = modifier.fillMaxSize()) {
         Box(modifier = Modifier.fillMaxSize())
         {
-
+            val animationScope = rememberCoroutineScope()
             MyGoogleMap(
                 modifier = Modifier.fillMaxSize(),
                 cameraPositionState = cameraPositionState,
                 markers = state.markers,
                 onMarkerClick = { marker ->
                     onChooseMarker(marker)
+                    animationScope.launch {
+                        cameraPositionState.animate(CameraUpdateFactory.newLatLng(marker.position))
+                    }
                 },
             )
         }
 
     }
-
 }
 
 
