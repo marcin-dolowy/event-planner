@@ -5,4 +5,5 @@ import com.example.eventplanner.ui.models.EventMarker
 data class MapState(
     val markers: List<EventMarker> = listOf(),
     val isLoading: Boolean = true,
+    val chosenEvent: EventMarker? = null,
 )

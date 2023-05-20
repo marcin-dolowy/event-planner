@@ -37,6 +37,8 @@ class MapViewModel @Inject constructor(
                                 iconId = R.drawable.marker_icon,
                                 eventTittle = title,
                                 eventId = id,
+                                place = place,
+                                dateTextString = dateTextString,
                             )
                         }
                     }
@@ -48,16 +50,21 @@ class MapViewModel @Inject constructor(
 
     fun onChooseEvent(newChosenMarker: EventMarker) {
         mutableState.update {
+            val previousSelected = it.chosenEvent
+
             it.copy(
                 markers = it.markers.map { marker ->
                     marker.copy(
-                        iconId = if(newChosenMarker.eventId == marker.eventId)
+                        iconId = if(newChosenMarker != previousSelected && newChosenMarker.eventId == marker.eventId)
                             R.drawable.selected_marker_icon
                         else
                             R.drawable.marker_icon
                     )
 
-                }
+                },
+                chosenEvent = if(newChosenMarker != previousSelected)
+                    newChosenMarker
+                else null,
             )
         }
     }

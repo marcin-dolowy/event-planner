@@ -18,7 +18,7 @@ fun EventDTOItem.toEvent(): Event {
         id = id,
         title = title,
         place = place,
-        dateDisplayString = dateDisplayString,
+        dateTextString = dateDisplayString,
         imageUrl = imageUrl,
         latitude = latitude,
         longitude = longitude,
@@ -29,7 +29,7 @@ fun Event.toDTO(): SaveEventDTO {
     return SaveEventDTO(
         title = title,
         place = place,
-        dateDisplayString = dateDisplayString,
+        dateDisplayString = dateTextString,
         imageUrl = imageUrl,
         latitude = latitude,
         longitude = longitude,
