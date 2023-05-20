@@ -10,12 +10,16 @@ import javax.inject.Inject
 class SaveEventUseCase @Inject constructor(
     private val eventService: EventService,
 ) {
-    suspend operator fun invoke(event: Event): Event? {
-        val response = eventService.saveEvent(event.toDTO())
-        return if (response.isSuccessful) {
-            response.body()?.toEvent()
-        } else {
+    suspend operator fun invoke(event: Event): Event? =
+        try  {
+            val response = eventService.saveEvent(event.toDTO())
+            if (response.isSuccessful) {
+                response.body()?.toEvent()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
             null
         }
-    }
 }

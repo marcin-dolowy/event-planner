@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -30,6 +32,7 @@ fun AddEventScreen(
     onChangeTitle: (String) -> Unit,
     onChangePlace: (String) -> Unit,
     onChangeImageUrl: (String) -> Unit,
+    onAddEventClick: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -87,6 +90,16 @@ fun AddEventScreen(
             ),
         )
 
+        Button(
+            onClick = { onAddEventClick() },
+            enabled = !state.isLoading,
+        ) {
+            Text(text = "Dodaj wydarzenie")
+        }
+
+        if(state.isLoading) {
+            CircularProgressIndicator()
+        }
     }
 
 }
@@ -112,6 +125,7 @@ private fun AddEventScreenPreview() {
             onChangeTitle = {},
             onChangePlace = {},
             onChangeImageUrl = {},
+            onAddEventClick = {},
         )
     }
 }

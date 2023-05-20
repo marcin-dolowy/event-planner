@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                     onChangeTitle = { addEventViewModel.onChangeTitle(it) },
                     onChangePlace = { addEventViewModel.onChangePlace(it) },
                     onChangeImageUrl = { addEventViewModel.onChangeImageUrl(it) },
-
+                    onAddEventClick = { addEventViewModel.onAddEventClick() }
                 )
             }
         }

@@ -1,8 +1,10 @@
 package com.example.eventplanner.di
 
+import android.app.Application
 import com.example.eventplanner.config.IAppConfig
 import com.example.eventplanner.config.LocalhostAppConfig
 import com.example.eventplanner.data.network.EventService
+import com.example.eventplanner.ui.utils.ToastViewer
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -27,4 +29,8 @@ class AppModule {
     @Provides
     fun eventService(retrofit: Retrofit): EventService =
         retrofit.create(EventService::class.java)
+
+    @Singleton
+    @Provides
+    fun toastViewer(application: Application) = ToastViewer(application.applicationContext)
 }
