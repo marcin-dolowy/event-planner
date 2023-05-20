@@ -14,6 +14,9 @@ data class AddEventState(
     val isLoading: Boolean = false,
 )
 
+sealed interface AddEventEffect {
+    object NavigateToEventList: AddEventEffect
+}
 fun LocalDateTime.formatToDatetimeFormat(): String {
     val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
     return format(formatter)

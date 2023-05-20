@@ -3,7 +3,6 @@ package com.example.eventplanner.ui.add_event
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.eventplanner.domain.SaveEventUseCase
-import com.example.eventplanner.ui.models.Event
 import com.example.eventplanner.ui.utils.ToastViewer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,6 +26,11 @@ class AddEventViewModel @Inject constructor(
             longitude = 0.0, // TODO: Change
         )
     )
+
+    val effect : StateFlow<AddEventEffect?>
+        get() = mutableEffect
+
+    private val mutableEffect: MutableStateFlow<AddEventEffect?> = MutableStateFlow(null)
 
     fun onDateChange(date: LocalDateTime) {
         updateState {
@@ -67,14 +71,6 @@ class AddEventViewModel @Inject constructor(
         }
     }
 
-    
-
-    private fun updateState(update: AddEventState.() -> AddEventState) {
-        mutableState.update {
-            update(it)
-        }
-    }
-
     fun onAddEventClick() {
         updateState {
             copy(isLoading = true)
@@ -90,6 +86,7 @@ class AddEventViewModel @Inject constructor(
                 }
                 else {
                     showToast("Success!!!!!!")
+                    pushEffect(AddEventEffect.NavigateToEventList)
                 }
             }
             else {
@@ -106,22 +103,17 @@ class AddEventViewModel @Inject constructor(
         toastViewer.showToast(message)
     }
 
-    private fun AddEventState.toValidatedEvent(): Event? =
-        try {
-            Event(
-                title = title.assertNotEmpty(),
-                place = place.assertNotEmpty(),
-                dateDisplayString = dateDisplayString!!.formatToDatetimeFormat(),
-                imageUrl = imageUrl.assertNotEmpty(),
-                latitude = latitude!!,
-                longitude = longitude!!,
-            )
-        } catch (e: Exception) {
-            null
+    private fun updateState(update: AddEventState.() -> AddEventState) {
+        mutableState.update {
+            update(it)
         }
+    }
 
-    private fun String.assertNotEmpty(): String =
-        ifEmpty {
-            throw IllegalArgumentException()
-        }
+    private fun pushEffect(effect: AddEventEffect) {
+        mutableEffect.value = effect
+    }
+
+    fun clearEffect() {
+        mutableEffect.value = null
+    }
 }

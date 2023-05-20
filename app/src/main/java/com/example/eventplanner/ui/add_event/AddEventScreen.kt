@@ -33,6 +33,7 @@ fun AddEventScreen(
     onChangePlace: (String) -> Unit,
     onChangeImageUrl: (String) -> Unit,
     onAddEventClick: () -> Unit,
+    onNavigateToEventList: () -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -126,6 +127,7 @@ private fun AddEventScreenPreview() {
             onChangePlace = {},
             onChangeImageUrl = {},
             onAddEventClick = {},
+            onNavigateToEventList = {},
         )
     }
 }
