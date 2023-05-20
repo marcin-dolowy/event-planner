@@ -4,7 +4,7 @@ data class Event(
     val id: String = "",
     val title: String = "",
     val place: String = "",
-    val dateDisplayString: String = "",
+    val dateTextString: String = "",
     val imageUrl: String = "",
     val latitude: Double,
     val longitude: Double,

@@ -1,11 +1,10 @@
 package com.example.eventplanner.di
 
 import android.app.Application
+import android.location.Geocoder
 import com.example.eventplanner.config.IAppConfig
-import com.example.eventplanner.config.LocalhostAppConfig
 import com.example.eventplanner.data.network.EventService
 import com.example.eventplanner.ui.utils.ToastViewer
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,4 +32,8 @@ class AppModule {
     @Singleton
     @Provides
     fun toastViewer(application: Application) = ToastViewer(application.applicationContext)
+
+    @Singleton
+    @Provides
+    fun geocoder(application: Application) = Geocoder(application.applicationContext)
 }

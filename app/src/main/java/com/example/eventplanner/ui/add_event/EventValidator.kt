@@ -8,7 +8,7 @@ fun AddEventState.toValidatedEvent(): Event? =
         Event(
             title = title.assertNotEmpty(),
             place = place.assertNotEmpty(),
-            dateDisplayString = dateDisplayString!!.formatToDatetimeFormat(),
+            dateTextString = dateDisplayString!!.formatToDatetimeFormat(),
             imageUrl = imageUrl.assertNotEmpty(),
             latitude = latitude!!,
             longitude = longitude!!,

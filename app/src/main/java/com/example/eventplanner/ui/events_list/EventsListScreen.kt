@@ -46,7 +46,7 @@ private fun EventsListScreenPreview() {
                     title = "Tytuł",
                     id = "",
                     place = "Kraków, Tauron Arena",
-                    dateDisplayString = "20.05.2023 17:00",
+                    dateTextString = "20.05.2023 17:00",
                     imageUrl = "",
                     latitude = 15.0,
                     longitude = 15.0,

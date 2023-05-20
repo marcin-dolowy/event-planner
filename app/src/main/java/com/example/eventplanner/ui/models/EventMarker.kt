@@ -7,4 +7,6 @@ data class EventMarker(
     val iconId: Int,
     val eventTittle: String,
     val eventId: String,
+    val place: String,
+    val dateTextString: String,
 )

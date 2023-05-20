@@ -1,14 +1,18 @@
 package com.example.eventplanner.ui.add_event
 
+import android.location.Address
+import android.location.Geocoder
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.eventplanner.domain.SaveEventUseCase
 import com.example.eventplanner.ui.utils.ToastViewer
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 import javax.inject.Inject
 
@@ -16,15 +20,13 @@ import javax.inject.Inject
 class AddEventViewModel @Inject constructor(
     private val saveEventUseCase: SaveEventUseCase,
     private val toastViewer: ToastViewer,
+    private val geocoder: Geocoder,
 ): ViewModel() {
     val state : StateFlow<AddEventState>
         get() = mutableState
 
     private val mutableState = MutableStateFlow(
-        AddEventState(
-            latitude = 0.0, // TODO: Change
-            longitude = 0.0, // TODO: Change
-        )
+        AddEventState()
     )
 
     val effect : StateFlow<AddEventEffect?>
@@ -61,7 +63,9 @@ class AddEventViewModel @Inject constructor(
 
     fun onChangePlace(newPlace: String) {
         updateState {
-            copy(place = newPlace)
+            copy(
+                place = newPlace
+            )
         }
     }
 
@@ -76,6 +80,13 @@ class AddEventViewModel @Inject constructor(
             copy(isLoading = true)
         }
         viewModelScope.launch {
+            val address = getPositionFromAddress(state.value.place)
+            updateState {
+                copy(
+                    latitude = address?.latitude,
+                    longitude = address?.longitude,
+                )
+            }
             val currentState = state.value
             val validatedEvent = currentState.toValidatedEvent()
 
@@ -122,5 +133,26 @@ class AddEventViewModel @Inject constructor(
 
     fun clearEffect() {
         mutableEffect.value = null
+    }
+
+    @Suppress("BlockingMethodInNonBlockingContext")
+    private suspend fun getPositionFromAddress(locationName: String): Address?
+    {
+        return if(locationName.isNotEmpty())
+        {
+            val address = withContext(Dispatchers.IO) {
+                return@withContext try {
+                    geocoder.getFromLocationName(locationName, 1)?.firstOrNull()
+                }
+                catch (e: Exception)
+                {
+                    null
+                }
+            }
+            address
+
+        }
+        else
+            null
     }
 }

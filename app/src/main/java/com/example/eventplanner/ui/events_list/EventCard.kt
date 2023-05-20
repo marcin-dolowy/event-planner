@@ -87,7 +87,7 @@ fun EventCard(
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = event.dateDisplayString,
+                    text = event.dateTextString,
                     fontWeight = FontWeight.Normal,
                     fontSize = 23.sp,
                     textAlign = TextAlign.Center
@@ -106,7 +106,7 @@ private fun EventCardPreview() {
             title = "Tytuł",
             id = "",
             place = "Kraków, Tauron Arena",
-            dateDisplayString = "20.05.2023 17:00",
+            dateTextString = "20.05.2023 17:00",
             imageUrl = "",
             latitude = 15.0,
             longitude = 15.0,
