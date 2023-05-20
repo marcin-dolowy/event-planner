@@ -1,6 +1,9 @@
 package com.example.eventplanner.di
 
+import com.example.eventplanner.config.IAppConfig
+import com.example.eventplanner.config.LocalhostAppConfig
 import com.example.eventplanner.data.network.EventService
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,8 +18,8 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun retrofit(): Retrofit = Retrofit.Builder()
-        .baseUrl("http://10.0.2.2:3001")
+    fun retrofit(appConfig: IAppConfig): Retrofit = Retrofit.Builder()
+        .baseUrl(appConfig.backandUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

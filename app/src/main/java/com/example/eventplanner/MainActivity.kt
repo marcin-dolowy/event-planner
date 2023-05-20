@@ -9,6 +9,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.eventplanner.ui.add_event.AddEventScreen
+import com.example.eventplanner.ui.add_event.AddEventViewModel
 import com.example.eventplanner.ui.events_list.EventListViewModel
 import com.example.eventplanner.ui.events_list.EventsListScreen
 import com.example.eventplanner.ui.theme.EventPlannerTheme
@@ -20,10 +22,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             EventPlannerTheme {
-                val eventListViewModel = hiltViewModel<EventListViewModel>()
+                /*val eventListViewModel = hiltViewModel<EventListViewModel>()
                 val eventListState = eventListViewModel.state.collectAsState()
                 EventsListScreen(
                     state = eventListState.value
+                )*/
+                val addEventViewModel = hiltViewModel<AddEventViewModel>()
+                val addEventState = addEventViewModel.state.collectAsState()
+                AddEventScreen(
+                    state = addEventState.value,
+                    onShowDateDialog = { addEventViewModel.onShowDialog() },
+                    onDateChange = { addEventViewModel.onDateChange(it) },
+                    onHideDialog = { addEventViewModel.onHideDialog() }
                 )
             }
         }

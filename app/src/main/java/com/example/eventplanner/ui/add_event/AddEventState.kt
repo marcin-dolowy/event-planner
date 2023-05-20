@@ -1,10 +1,13 @@
 package com.example.eventplanner.ui.add_event
 
+import java.time.LocalDateTime
+
 data class AddEventState(
     val title: String = "",
     val place: String = "",
-    val dateDisplayString: String = "",
+    val dateDisplayString: LocalDateTime? = null,
     val imageUrl: String = "",
-    val latitude: Double,
-    val longitude: Double,
+    val latitude: Double? = null,
+    val longitude: Double? = null,
+    val showDateDialog: Boolean = false,
 )
