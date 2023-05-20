@@ -46,13 +46,13 @@ class AddEventViewModel @Inject constructor(): ViewModel() {
 
     fun onChangePlace(newPlace: String) {
         updateState {
-            copy(title = newPlace)
+            copy(place = newPlace)
         }
     }
 
     fun onChangeImageUrl(newImageUrl: String) {
         updateState {
-            copy(title = newImageUrl)
+            copy(imageUrl = newImageUrl)
         }
     }
 

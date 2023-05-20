@@ -33,7 +33,11 @@ class MainActivity : ComponentActivity() {
                     state = addEventState.value,
                     onShowDateDialog = { addEventViewModel.onShowDialog() },
                     onDateChange = { addEventViewModel.onDateChange(it) },
-                    onHideDialog = { addEventViewModel.onHideDialog() }
+                    onHideDialog = { addEventViewModel.onHideDialog() },
+                    onChangeTitle = { addEventViewModel.onChangeTitle(it) },
+                    onChangePlace = { addEventViewModel.onChangePlace(it) },
+                    onChangeImageUrl = { addEventViewModel.onChangeImageUrl(it) },
+
                 )
             }
         }
