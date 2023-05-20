@@ -8,13 +8,17 @@ import javax.inject.Inject
 class GetEventsUseCase @Inject constructor(
     private val eventService: EventService,
 ) {
-    suspend operator fun invoke(): List<Event> {
-        val response = eventService.getEvents()
-        return if(response.isSuccessful) {
-            response.body().toEventList()
+    suspend operator fun invoke(): List<Event>? =
+        try {
+            val response = eventService.getEvents()
+            if(response.isSuccessful) {
+                response.body().toEventList()
+            }
+            else {
+                null
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
         }
-        else {
-            listOf()
-        }
-    }
 }

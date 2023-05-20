@@ -6,11 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,6 +19,8 @@ import com.example.eventplanner.ui.add_event.AddEventScreen
 import com.example.eventplanner.ui.add_event.AddEventViewModel
 import com.example.eventplanner.ui.events_list.EventListViewModel
 import com.example.eventplanner.ui.events_list.EventsListScreen
+import com.example.eventplanner.ui.events_map.MapScreen
+import com.example.eventplanner.ui.events_map.MapViewModel
 import com.example.eventplanner.ui.theme.EventPlannerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,11 +41,12 @@ class MainActivity : ComponentActivity() {
                             AddEventDestination(
                                 modifier = Modifier.padding(padding),
                                 onNavigateToEventList = {
-                                    navController.navigate(Routes.EventList.routeName) {
-
-                                    }
+                                    navController.navigate(Routes.EventList.routeName)
                                 },
                             )
+                        }
+                        composable(route = Routes.Map.routeName) {
+                            MapDestination(modifier = Modifier.padding(padding))
                         }
                     }
                 }
@@ -57,6 +58,7 @@ class MainActivity : ComponentActivity() {
 sealed class Routes(val routeName: String, val navItemText: String, val navIconId: Int) {
     object EventList: Routes(routeName = "EventList", navItemText = "Lista Wydarzeń", navIconId = R.drawable.calendar_icon)
     object AddEvent: Routes(routeName = "AddEvent", navItemText = "Dodawanie wydarzeń", navIconId = R.drawable.calendar_icon)
+    object Map: Routes(routeName = "Map", navItemText = "Mapa wydarzeń", navIconId = R.drawable.calendar_icon)
 }
 
 @Composable
@@ -112,17 +114,15 @@ private fun AddEventDestination(
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+private fun MapDestination(modifier: Modifier) {
+    val mapViewModel = hiltViewModel<MapViewModel>()
+    val mapState = mapViewModel.state.collectAsState()
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    EventPlannerTheme {
-        Greeting("Android")
-    }
+    MapScreen(
+        modifier = modifier,
+        state = mapState.value,
+        onChooseMarker = {
+            mapViewModel.onChooseEvent(newChosenMarker = it)
+        }
+    )
 }

@@ -27,10 +27,12 @@ class EventListViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             val events = getEventsUseCase()
-            mutableState.update {
-                it.copy(
-                    events = events,
-                )
+            events?.let {
+                mutableState.update {
+                    it.copy(
+                        events = events,
+                    )
+                }
             }
         }
     }

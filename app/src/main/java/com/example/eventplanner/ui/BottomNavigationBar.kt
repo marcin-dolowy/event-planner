@@ -22,7 +22,8 @@ fun BottomNavigationBar(
 {
     val items = listOf(
         Routes.EventList,
-        Routes.AddEvent
+        Routes.AddEvent,
+        Routes.Map,
     )
 
     val itemRoutes = remember(items)
