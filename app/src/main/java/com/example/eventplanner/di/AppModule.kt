@@ -2,7 +2,10 @@ package com.example.eventplanner.di
 
 import android.app.Application
 import android.location.Geocoder
+import androidx.room.Room
 import com.example.eventplanner.config.IAppConfig
+import com.example.eventplanner.data.local.EventDao
+import com.example.eventplanner.data.local.EventDatabase
 import com.example.eventplanner.data.network.EventService
 import com.example.eventplanner.ui.utils.ToastViewer
 import dagger.Module
@@ -36,4 +39,18 @@ class AppModule {
     @Singleton
     @Provides
     fun geocoder(application: Application) = Geocoder(application.applicationContext)
+
+    @Singleton
+    @Provides
+    fun eventDatabase(application: Application): EventDatabase = Room
+        .databaseBuilder(
+            application.applicationContext,
+            EventDatabase::class.java,
+            "EventDatabase"
+        )
+        .build()
+
+    @Singleton
+    @Provides
+    fun eventDao(eventDatabase: EventDatabase): EventDao = eventDatabase.eventDao()
 }

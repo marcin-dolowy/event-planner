@@ -25,6 +25,7 @@ fun EventsListScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             items(state.events) { event ->
+
                 EventCard(
                     event = event,
                     modifier = Modifier.padding(horizontal = 10.dp),

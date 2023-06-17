@@ -6,6 +6,7 @@ import com.example.eventplanner.domain.GetEventsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -26,14 +27,14 @@ class EventListViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val events = getEventsUseCase()
-            events?.let {
-                mutableState.update {
-                    it.copy(
-                        events = events,
-                    )
+            getEventsUseCase()
+                .collectLatest { events ->
+                    mutableState.update {
+                        it.copy(
+                            events = events,
+                        )
+                    }
                 }
-            }
         }
     }
 

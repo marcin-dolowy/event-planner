@@ -121,4 +121,8 @@ dependencies {
     //DateTime picker
     implementation 'com.maxkeppeler.sheets-compose-dialogs:core:1.1.1'
     implementation 'com.maxkeppeler.sheets-compose-dialogs:date-time:1.1.1'
+
+    //Room
+    implementation "androidx.room:room-ktx:$rootProject.room_version"
+    kapt "androidx.room:room-compiler:$rootProject.room_version"
 }

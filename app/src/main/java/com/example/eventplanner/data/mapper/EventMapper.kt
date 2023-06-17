@@ -1,5 +1,6 @@
 package com.example.eventplanner.data.mapper
 
+import com.example.eventplanner.data.local.EventModel
 import com.example.eventplanner.data.models.EventDTO
 import com.example.eventplanner.data.models.EventDTOItem
 import com.example.eventplanner.data.models.SaveEventDTO
@@ -35,3 +36,23 @@ fun Event.toDTO(): SaveEventDTO {
         longitude = longitude,
     )
 }
+
+fun EventModel.toDomain(): Event = Event(
+    id = id,
+    title = title,
+    place = place,
+    dateTextString = dateDisplayString,
+    imageUrl = imageUrl,
+    latitude = latitude,
+    longitude = longitude,
+)
+
+fun Event.toEventModel(): EventModel = EventModel(
+    id = id,
+    title = title,
+    place = place,
+    dateDisplayString = dateTextString,
+    imageUrl = imageUrl,
+    latitude = latitude,
+    longitude = longitude,
+)

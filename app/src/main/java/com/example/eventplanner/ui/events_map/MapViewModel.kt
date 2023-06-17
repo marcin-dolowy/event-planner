@@ -9,6 +9,7 @@ import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,24 +25,25 @@ class MapViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val events = getEventsUseCase()
-            events?.let {
-                mutableState.update {
-                    it.copy(markers = events.map {
-                        with(it) {
-                            EventMarker(
-                                position = LatLng(
-                                    latitude,
-                                    longitude,
-                                ),
-                                iconId = R.drawable.marker_icon,
-                                eventTittle = title,
-                                eventId = id,
-                                place = place,
-                                dateTextString = dateTextString,
-                            )
+            val eventsFlow = getEventsUseCase()
+            eventsFlow.collectLatest { events ->
+                mutableState.update { mapState ->
+                    mapState.copy(
+                        markers = events.map {
+                            with(it) {
+                                EventMarker(
+                                    position = LatLng(
+                                        latitude,
+                                        longitude,
+                                    ),
+                                    iconId = R.drawable.marker_icon,
+                                    eventTittle = title,
+                                    eventId = id,
+                                    place = place,
+                                    dateTextString = dateTextString,
+                                )
+                            }
                         }
-                    }
                     )
                 }
             }
