@@ -67,7 +67,10 @@ private fun EventListDestination(modifier: Modifier) {
     val eventListState = eventListViewModel.state.collectAsState()
     EventsListScreen(
         modifier = modifier,
-        state = eventListState.value
+        state = eventListState.value,
+        onDismiss = {
+            eventListViewModel.onDeleteEvent(it)
+        }
     )
 }
 
